@@ -1,24 +1,58 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
+    name: "login",
+    component: Login
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/signup",
+    name: "signup",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import("../views/Signup.vue")
+  },
+  {
+    path: "/forgot-password",
+    name: "forgotPassword",
+    component: () =>
+      import("../views/ForgotPassword.vue")
+  },
+  {
+    path: "/start-migration",
+    name: "startMigration",
+    component: () =>
+      import("../views/StartMigration.vue")
+  },
+  {
+    path: "/account-verification",
+    name: "accountVerification",
+    component: () =>
+      import("../views/AccountVerification.vue")
+  },
+  {
+    path: "/account-verification-complete",
+    name: "accountVerificationComplete",
+    component: () =>
+      import("../views/AccountVerificationComplete.vue")
+  },
+  {
+    path: "/get-ready-for-migration-1",
+    name: "readyForMigration1",
+    component: () =>
+      import("../views/TokenMigration/ReadyForMigration1.vue")
+  },
+  {
+    path: "/get-ready-for-migration-2",
+    name: "readyForMigration2",
+    component: () =>
+      import("../views/TokenMigration/ReadyForMigration2.vue")
   }
+
 ];
 
 const router = new VueRouter({
