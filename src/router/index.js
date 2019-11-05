@@ -41,16 +41,46 @@ const routes = [
       import("../views/AccountVerificationComplete.vue")
   },
   {
-    path: "/get-ready-for-migration-1",
+    path: "/ready-for-migration-1",
     name: "readyForMigration1",
     component: () =>
-      import("../views/TokenMigration/ReadyForMigration1.vue")
+      import("../views/ReadyForMigration/ReadyForMigration1.vue")
   },
   {
-    path: "/get-ready-for-migration-2",
+    path: "/ready-for-migration-2",
     name: "readyForMigration2",
     component: () =>
-      import("../views/TokenMigration/ReadyForMigration2.vue")
+      import("../views/ReadyForMigration/ReadyForMigration2.vue")
+  },
+  {
+    path: "/ready-for-migration-3",
+    name: "readyForMigration3",
+    component: () =>
+      import("../views/ReadyForMigration/ReadyForMigration3.vue")
+  },
+  {
+    path: "/token-migration-1",
+    name: "tokenMirgration1",
+    component: () =>
+      import("../views/TokenMigration/TokenMigration1.vue")
+  },
+  {
+    path: "/token-migration-2",
+    name: "tokenMigration2",
+    component: () =>
+      import("../views/TokenMigration/TokenMigration2.vue")
+  },
+  {
+    path: "/token-migration-3",
+    name: "tokenMigration3",
+    component: () =>
+      import("../views/TokenMigration/TokenMigration3.vue")
+  },
+  {
+    path: "/token-migration-success",
+    name: "tokenMigrationSuccess",
+    component: () =>
+      import("../views/TokenMigration/TokenMigrationSuccess.vue")
   }
 
 ];
