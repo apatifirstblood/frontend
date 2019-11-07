@@ -6,7 +6,11 @@
     <router-view/>
   </div>
 </template>
-
+<script>
+export default {
+  
+}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:300,400,500,600,700&display=swap');
 

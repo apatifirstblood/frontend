@@ -6,23 +6,57 @@
             <form class="login-form">
                 <div class="form-group">
                     <label class="label1">Email</label>
-                    <input type="email" placeholder="@email" id="login-email" class="form-control" required/>
+                    <input type="email" v-model="email" placeholder="@email" id="login-email" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label class="label1">Password</label>
-                    <input type="password" placeholder="Password" id="login-password" class="form-control" required/>
+                    <input type="password" v-model="password" placeholder="Password" id="login-password" class="form-control" required/>
                 </div>
             </form>
             <p class="reset-password">Forgot Password? <router-link to="/forgot-password">Reset it</router-link></p>
             <hr>
-            <button class="btn btn-fb-chain">Login</button>
+            <button class="btn btn-fb-chain" id="#login-btn" @click="userLogin">Login</button>
             <p class="text-small">Dont have an account? <router-link to="/signup">Sign up</router-link></p>
         </div>
     </div>
 </template>
 <script>
+// import axios from 'axios'
 export default {
-    
+    data (){
+        return {
+            email: null,
+            password: null,
+            response: null
+        }
+    },
+    methods:{
+        checkEmail(){
+            return true;
+        },
+        checkPassword(){
+            return true;
+        },
+        userLogin(){
+            if(this.checkEmail()){
+                if(this.checkPassword()){
+                    this.$http.get('http://localhost:5000/api/users/login',{
+                        params:{
+                            email: this.email,
+                            password: this.password
+                        }
+                    })
+                    .then(response => (this.response = response))
+                    return true
+                }else{
+                    //Password Not Validated
+                }
+            }else{
+                //Email Not Validated
+            }
+            return false
+        }
+    }
 }
 </script>
 <style scoped>
