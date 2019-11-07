@@ -78,4 +78,10 @@ hr{
   margin-top: 30px;
   border-radius: 0px;
 }
+.red-text{
+  color: #F42E31;
+}
+.green-text{
+  color: #00C2A9;
+}
 </style>

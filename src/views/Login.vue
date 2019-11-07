@@ -3,10 +3,11 @@
         <div class="inner">
             <img alt="FB chain logo" class="logo" src="../assets/FB-chain-logo.svg" />
             <p class="title">Login</p>
+            <p class="error red-text">{{ error }}</p>
             <form class="login-form">
                 <div class="form-group">
                     <label class="label1">Email</label>
-                    <input type="email" v-model="email" placeholder="@email" id="login-email" class="form-control" required/>
+                    <input name="email" type="email" v-model="email" placeholder="@email" id="login-email" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label class="label1">Password</label>
@@ -27,7 +28,8 @@ export default {
         return {
             email: null,
             password: null,
-            response: null
+            response: null,
+            error: null
         }
     },
     methods:{
@@ -40,22 +42,34 @@ export default {
         userLogin(){
             if(this.checkEmail()){
                 if(this.checkPassword()){
-                    this.$http.get('http://localhost:5000/api/users/login',{
-                        params:{
+                    this.$http.post('http://localhost:5000/api/users/login',{
                             email: this.email,
                             password: this.password
-                        }
                     })
-                    .then(response => (this.response = response))
-                    return true
+                    .then(response => (
+                        this.response = response.data,
+                        this.validateResponse(),
+                        console.log(response.data)
+                    ))
+                    .catch(error => console.log(error))
                 }else{
                     //Password Not Validated
+                    return false
                 }
             }else{
                 //Email Not Validated
+                return false
             }
-            return false
+        },
+        validateResponse(){
+            if(this.response !== null){
+            if(this.response.success){
+                this.$router.push('start-migration')
+            }else{
+                this.error = this.response.message
+            }
         }
+    }
     }
 }
 </script>
