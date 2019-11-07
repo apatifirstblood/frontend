@@ -53,20 +53,19 @@ export default {
             return true
         },
         userSignUp(){
+            let data = {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                repeat_password: this.confirmPassword,
+                role: 'user' 
+            }
             if(this.checkEmail()){
                 if(this.checkPassword()){
-                    this.$http.post('http://localhost:5000/api/users/register',{
-                            name: this.name,
-                            email: this.email,
-                            password: this.password,
-                            repeat_password: this.confirmPassword,
-                            role: "user"
-                    })
-                    .then(response => (
-                        this.response = response.data,
-                        this.validateResponse()
-                    ))
-                    .catch(error => console.log(error))
+                    this.$store
+                    .dispatch('register', data)
+                    .then(() => this.$router.push('start-migration'))
+                    .catch(err => console.log(err))
                 }else{
                     this.error = "Password not secure enough!"
                 }
@@ -74,15 +73,6 @@ export default {
                 this.error = "Email doesn't seem to be valid!"
             }
         },
-        validateResponse(){
-            if(this.response !== null){
-                if(this.response.success){
-                    this.$router.push('start-migration')
-                }else{
-                    this.error = this.response.message
-                }
-            }
-        }
     },
     watch: {
         confirmPassword(val){

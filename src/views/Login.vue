@@ -40,18 +40,14 @@ export default {
             return true;
         },
         userLogin(){
+            let email = this.email;
+            let password = this.password;
             if(this.checkEmail()){
                 if(this.checkPassword()){
-                    this.$http.post('http://localhost:5000/api/users/login',{
-                            email: this.email,
-                            password: this.password
-                    })
-                    .then(response => (
-                        this.response = response.data,
-                        this.validateResponse(),
-                        console.log(response.data)
-                    ))
-                    .catch(error => console.log(error))
+                    this.$store
+                    .dispatch('login', {email, password})
+                    .then(() => this.$router.push('start-migration'))
+                    .catch(err => console.log(err));
                 }else{
                     //Password Not Validated
                     return false
@@ -61,15 +57,6 @@ export default {
                 return false
             }
         },
-        validateResponse(){
-            if(this.response !== null){
-            if(this.response.success){
-                this.$router.push('start-migration')
-            }else{
-                this.error = this.response.message
-            }
-        }
-    }
     }
 }
 </script>
