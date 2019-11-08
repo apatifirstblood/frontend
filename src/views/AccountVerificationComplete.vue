@@ -10,7 +10,6 @@
             <img src="../assets/loading.svg" class="loading-img"/>
             <hr>
             <small>If you do not receive feedback in an hour, <a href="#">contact our support</a></small>
-            <router-link to="/"><button class="btn back">Logout</button></router-link>
         </div>
     </div>
     </div>

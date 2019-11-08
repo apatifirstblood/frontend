@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import axios from 'axios'
 
 Vue.use(Vuex);
-
+let api_url = "http://localhost:5000/api/"
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || '',
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     login({ commit }, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({url: 'http://localhost:5000/api/users/login', data: user, method: 'POST'})
+        axios({url: `${api_url}users/login`, data: user, method: 'POST'})
         .then(resp => {
           const token = resp.data.token
           const user = resp.data.role
@@ -48,7 +48,7 @@ export default new Vuex.Store({
     register({ commit }, user){
       return new Promise((resolve, reject) => {
         commit('auth_request')
-        axios({url: 'http://localhost:5000/api/users/register', data: user, method: 'POST'})
+        axios({url: `${api_url}users/register`, data: user, method: 'POST'})
         .then(resp => {
           const token = resp.data.token
           const user = resp.data.role
@@ -64,11 +64,11 @@ export default new Vuex.Store({
         })
       })
     },
-    logout({ commit }){
-      return new Promise((resolve) => {
-        commit('logout')
+    logout({ commit }) {
+      return new Promise(async (resolve) => {
+        await commit('logout')
         localStorage.removeItem('token')
-        delete axios.defaults.headers.commom['Authorization']
+        delete axios.defaults.headers.common['Authorization']
         resolve()
       })
     }

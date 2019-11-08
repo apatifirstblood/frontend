@@ -1,7 +1,8 @@
 <template>
   <div id="app" class="row">
-    <div id="nav" class="col-sm-2">
+    <div id="nav" class="col-sm-2" v-if="isLoggedIn">
       <router-link to="/start-migration">Start Migration</router-link>
+      <a @click="logout">Logout</a>
     </div>
     <router-view/>
   </div>
@@ -9,13 +10,15 @@
 <script>
 export default {
   computed:{
-    isLoggedIN: function(){
+    isLoggedIn: function(){
       return this.$store.getters.isLoggedIn
     }
   },
   methods:{
     logout(){
-      this.$store.dispatch('logout').then(() => this.$router.push('/'))
+      this.$store.dispatch('logout').then(() => {console.log("inside")
+      this.$router.push('/')})
+      
     }
   }
 }
