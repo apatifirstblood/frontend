@@ -1,5 +1,5 @@
 <template>
-    <div class="login col-sm-12">
+    <div class="login col-sm-10">
         <div class="inner">
             <img alt="FB chain logo" class="logo" src="../assets/FB-chain-logo.svg" />
             <p class="title">Login</p>
@@ -29,7 +29,7 @@ export default {
             email: null,
             password: null,
             response: null,
-            error: null
+            error: null,
         }
     },
     methods:{
@@ -46,8 +46,15 @@ export default {
                 if(this.checkPassword()){
                     this.$store
                     .dispatch('login', {email, password})
-                    .then(() => this.$router.push('start-migration'))
-                    .catch(err => console.log(err));
+                    .then(() => {
+                        if(this.$store.getters.isAuthenticated){
+                            this.$router.push('/ready-for-migration-1')
+                        }
+                        else{
+                            this.$router.push('start-migration')
+                        }
+                    })
+                    .catch(err => this.error = err);
                 }else{
                     //Password Not Validated
                     return false

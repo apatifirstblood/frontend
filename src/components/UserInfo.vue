@@ -1,13 +1,17 @@
 <template>
     <div class="row">
       <img src="../assets/user-default.svg" class="user-default-icon" />
-      <p>User Name</p>
+      <p>{{ this.name }}</p>
       <img src="../assets/arrow-down.svg" class="user-arrow-down" />
     </div>
 </template>
 <script>
 export default {
-    
+    data(){
+        return{
+            name: this.$store.getters.userName
+        }
+    }
 }
 </script>
 <style scoped>

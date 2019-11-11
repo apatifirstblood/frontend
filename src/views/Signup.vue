@@ -64,8 +64,8 @@ export default {
                 if(this.checkPassword()){
                     this.$store
                     .dispatch('register', data)
-                    .then(() => this.$router.push('start-migration'))
-                    .catch(err => console.log(err))
+                    .then(() => this.$router.push('/start-migration'))
+                    .catch(err => this.error = err)
                 }else{
                     this.error = "Password not secure enough!"
                 }

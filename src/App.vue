@@ -16,9 +16,8 @@ export default {
   },
   methods:{
     logout(){
-      this.$store.dispatch('logout').then(() => {console.log("inside")
-      this.$router.push('/')})
-      
+      this.$store.dispatch('logout').then(() => {
+      this.$router.push('/')})  
     }
   }
 }
