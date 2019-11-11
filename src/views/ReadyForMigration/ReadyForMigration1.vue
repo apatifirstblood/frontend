@@ -19,11 +19,8 @@
             </div>
             <hr>
             <div class="row btn-row">
-                <div class="col-sm-6">
-                    <router-link to="/start-migration"><button class="btn btn-fb-chain back">Exit</button></router-link>
-                </div>
-                <div class="col-sm-6">
-                    <router-link to="/ready-for-migration-2"><button class="btn btn-fb-chain">Start Verification</button></router-link>
+                <div class="col-sm-6 mx-auto">
+                    <router-link to="/ready-for-migration-2"><button class="btn btn-fb-chain">Create Address</button></router-link>
                 </div>
             </div>
         </div>
@@ -35,6 +32,12 @@ import userInfo from "../../components/UserInfo.vue"
 export default {
     components:{
         userInfo
+    },
+    methods:{
+        logout(){
+            this.$store.dispatch('logout').then(() => {
+            this.$router.push('/')})
+        }
     }
 }
 </script>

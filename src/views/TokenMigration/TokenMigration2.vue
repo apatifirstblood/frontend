@@ -12,7 +12,7 @@
             <p><a class="info" href="#">What is metamask?</a></p>
             <div class="row btn-row">
                 <div class="col-sm-6">
-                    <router-link to="/start-migration"><button class="btn btn-fb-chain back">Cancel</button></router-link>
+                    <router-link to="/token-migration-1"><button class="btn btn-fb-chain back">Cancel</button></router-link>
                 </div>
                 <div class="col-sm-6">
                     <router-link to="/token-migration-3"><button class="btn btn-fb-chain">Got It, Continue</button></router-link>

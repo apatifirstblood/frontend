@@ -1,5 +1,5 @@
 <template>
-    <div class="login col-sm-10">
+    <div class="login col-sm-12">
         <div class="inner">
             <img alt="FB chain logo" class="logo" src="../assets/FB-chain-logo.svg" />
             <p class="title">Login</p>

@@ -56,7 +56,8 @@ const routes = [
     component: () =>
       import("../views/ReadyForMigration/ReadyForMigration1.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -65,7 +66,8 @@ const routes = [
     component: () =>
       import("../views/ReadyForMigration/ReadyForMigration2.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -74,7 +76,8 @@ const routes = [
     component: () =>
       import("../views/ReadyForMigration/ReadyForMigration3.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -83,7 +86,8 @@ const routes = [
     component: () =>
       import("../views/TokenMigration/TokenMigration1.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -92,7 +96,8 @@ const routes = [
     component: () =>
       import("../views/TokenMigration/TokenMigration2.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -101,7 +106,8 @@ const routes = [
     component: () =>
       import("../views/TokenMigration/TokenMigration3.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   },
   {
@@ -110,7 +116,8 @@ const routes = [
     component: () =>
       import("../views/TokenMigration/TokenMigrationSuccess.vue"),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        requiresVerification: true
       }
   }
 
@@ -123,6 +130,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresVerification)) {
+    if (store.getters.isAuthenticated) {
+      next()
+      return
+    }
+    next('/start-migration')
+  } else {
+    next()
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()

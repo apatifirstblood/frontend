@@ -11,9 +11,9 @@
                 </div>
                 <div class="col-sm-8">
                     <ul>
-                        <li>Have your Ethereum Address ready <img src="../../assets/help.svg" class="help"></li>
-                        <li>Make sure there is ETH in your wallet <img src="../../assets/help.svg" class="help"></li>
-                        <li>Consolidate your 1ST token if possible</li>
+                        <li>Prepare some form of ID <img src="../../assets/help.svg" class="help"></li>
+                        <li>Double check Steps 1 & 2</li>
+                        <li>Click on button bellow when you’re ready</li>
                     </ul>
                 </div>
             </div>

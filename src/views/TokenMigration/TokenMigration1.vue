@@ -19,7 +19,7 @@
             <hr>
             <div class="row btn-row">
                 <div class="col-sm-6">
-                    <router-link to="/start-migration"><button class="btn btn-fb-chain back">Cancel</button></router-link>
+                    <router-link to="/ready-for-migration-3"><button class="btn btn-fb-chain back">Back</button></router-link>
                 </div>
                 <div class="col-sm-6">
                     <router-link to="/token-migration-2"><button class="btn btn-fb-chain">Continue</button></router-link>
