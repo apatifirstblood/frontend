@@ -88,8 +88,11 @@ export default new Vuex.Store({
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     isAuthenticated: state => !!state.user.authenticated,
-    userName: state=> state.user.name,
-    apiUrl: state=>state.api_url,
-    userEmail: state=> state.user.email
+    userName: state => state.user.name,
+    apiUrl: state => state.api_url,
+    userEmail: state => state.user.email,
+    isAdmin: state => {
+      return state.user.role === 'admin' ? true : false
+    }
   }
 });

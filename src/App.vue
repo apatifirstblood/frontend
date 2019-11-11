@@ -2,6 +2,7 @@
   <div id="app" class="row">
     <div id="nav" class="col-sm-2" v-if="isLoggedIn">
       <router-link to="/start-migration">Start Migration</router-link>
+      <router-link to="/dashboard" v-if="isAdmin">Admin Dashboard</router-link>
       <a @click="logout">Logout</a>
     </div>
     <router-view/>
@@ -12,6 +13,9 @@ export default {
   computed:{
     isLoggedIn: function(){
       return this.$store.getters.isLoggedIn
+    },
+    isAdmin: function(){
+      return this.$store.getters.isAdmin
     }
   },
   methods:{

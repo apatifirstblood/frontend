@@ -119,6 +119,14 @@ const routes = [
         requiresAuth: true,
         requiresVerification: true
       }
+  },{
+    path: "/dashboard",
+    name: "adminDashboard",
+    component: () => import("../views/Admin/dashboard.vue"),
+    meta:{
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   }
 
 ];
@@ -136,6 +144,17 @@ router.beforeEach((to, from, next) => {
       return
     }
     next('/start-migration')
+  } else {
+    next()
+  }
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (store.getters.isAdmin) {
+      next()
+      return
+    }
+    next('/ready-for-migration-1')
+    // this.$store.dispatch('logout').then(() => {
+    // this.$router.push('/')})
   } else {
     next()
   }
