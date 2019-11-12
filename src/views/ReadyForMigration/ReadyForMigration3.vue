@@ -11,9 +11,9 @@
                 </div>
                 <div class="col-sm-8">
                     <ul>
-                        <li>Prepare some form of ID <img src="../../assets/help.svg" class="help"></li>
-                        <li>Double check Steps 1 & 2</li>
-                        <li>Click on button bellow when you’re ready</li>
+                        <li>Have your Ethereum Address ready <img src="../../assets/help.svg" class="help"></li>
+                        <li>Make sure there is ETH in your wallet <img src="../../assets/help.svg" class="help"></li>
+                        <li>Consolidate your 1ST token if possible</li>
                     </ul>
                 </div>
             </div>
@@ -23,7 +23,8 @@
                     <router-link to="/ready-for-migration-2"><button class="btn btn-fb-chain back">Back</button></router-link>
                 </div>
                 <div class="col-sm-6">
-                    <router-link to="/token-migration-1"><button class="btn btn-fb-chain">I'm Ready</button></router-link>
+                    <button class="btn btn-fb-chain" @click="verifyMetamask()">I'm Ready</button>
+                    <!-- <button class="btn btn-fb-chain" @click="migrateTokens()">Migrate</button> -->
                 </div>
             </div>
         </div>
@@ -32,7 +33,67 @@
 </template>
 <script>
 import userInfo from "../../components/UserInfo.vue"
+import Web3 from "web3"
+// import TruffleContract from "truffle"
 export default {
+    data() {
+        return{
+        contracts: {},
+        account: '0x0',
+        web3Provider: null,
+        web3 : null
+        }
+    },
+    methods: {
+            async verifyMetamask(){
+                if (typeof window.web3 !== 'undefined') {
+                    this.web3Provider = window.web3.currentProvider;
+                    this.web3 = new Web3(this.web3Provider);
+                    await this.web3Provider.enable();
+                    this.account = await this.web3.eth.getCoinbase();
+                    var balance = await this.web3.eth.getBalance(this.account);
+                    console.log("balance", balance);
+            // $.getJSON("token.json", function(token) {
+            //     this.contracts.token = TruffleContract(token);
+            //     this.contracts.token.setProvider(this.web3Provider);
+            //     this.contracts.token.deployed().then(function(token) {
+            //     console.log("ERC Token Address:", token.address);
+            //     });
+            // }).done(function() {
+            //     $.getJSON("peggy.json", function(peggy) {
+            //     this.contracts.peggy = TruffleContract(peggy);
+            //     this.contracts.peggy.setProvider(this.web3Provider);
+            //     this.contracts.peggy.deployed().then(function(peggy) {
+            //     console.log("peggy Address:", peggy.address);
+            //     });
+            //     return render();
+            //     });
+            // })
+                // this.contracts.token.deployed().then((instance) => {
+                // return instance.balanceOf(this.account);
+                //     } ).then(function(balance) {
+                // console.log(balance.toNumber());
+                // })
+            }
+        },
+        async migrateTokens(numberOfTokens){
+            let payload;
+            let peggy = await this.contracts.peggy.deployed();
+            let token = await this.contracts.token.deployed();
+            let resultAllow = await token.allowance(this.account, peggy.address, {
+                from: this.account,
+                value: numberOfTokens,
+                gas: 500000
+            });
+            console.log("resultAllow", resultAllow);
+            let resultLock = await peggy.lock(numberOfTokens, payload, {
+                from: this.account,
+                value: numberOfTokens,
+                gas: 500000
+            });
+            console.log("resultLock", resultLock);
+        }
+    },
     components:{
         userInfo
     }
@@ -63,7 +124,7 @@ export default {
     }
     a{
         font-weight: 500;
-        color: #9760aa;
+        color: #9760AA;
     }
     .ready-for-migration-img{
         padding-top: 30px;
@@ -83,7 +144,6 @@ export default {
         text-align: left;
     }
     .help{
-        
     }
     .btn-row{
         width: 90%;
@@ -95,7 +155,7 @@ export default {
         padding-right: 0px;
     }
     .btn-fb-chain{
-        background-color: #9760aa;
+        background-color: #9760AA;
         width: 90%;
         padding: 12px;
         display: block;
