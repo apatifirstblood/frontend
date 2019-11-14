@@ -19,12 +19,16 @@
             </div>
             <hr>
             <div class="row btn-row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <router-link to="/ready-for-migration-2"><button class="btn btn-fb-chain back">Back</button></router-link>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <button class="btn btn-fb-chain" @click="verifyMetamask()">I'm Ready</button>
-                    <!-- <button class="btn btn-fb-chain" @click="migrateTokens()">Migrate</button> -->
+                    <br>
+                    <button class="btn btn-fb-chain" @click="migrateTokens()">Migrate</button>
+                </div>
+                <div class="col-sm-4">
+                    <input type="number" v-model="tokenInput">
                 </div>
             </div>
         </div>
@@ -34,14 +38,18 @@
 <script>
 import userInfo from "../../components/UserInfo.vue"
 import Web3 from "web3"
-// import TruffleContract from "truffle"
+import TruffleContract from "truffle-contract"
+import $ from 'jquery'
+import axios from 'axios'
+
 export default {
     data() {
         return{
         contracts: {},
         account: '0x0',
         web3Provider: null,
-        web3 : null
+        web3 : null,
+        tokenInput: 0,
         }
     },
     methods: {
@@ -52,46 +60,70 @@ export default {
                     await this.web3Provider.enable();
                     this.account = await this.web3.eth.getCoinbase();
                     var balance = await this.web3.eth.getBalance(this.account);
+                    console.log(this.account)
                     console.log("balance", balance);
-            // $.getJSON("token.json", function(token) {
-            //     this.contracts.token = TruffleContract(token);
-            //     this.contracts.token.setProvider(this.web3Provider);
-            //     this.contracts.token.deployed().then(function(token) {
-            //     console.log("ERC Token Address:", token.address);
-            //     });
-            // }).done(function() {
-            //     $.getJSON("peggy.json", function(peggy) {
-            //     this.contracts.peggy = TruffleContract(peggy);
-            //     this.contracts.peggy.setProvider(this.web3Provider);
-            //     this.contracts.peggy.deployed().then(function(peggy) {
-            //     console.log("peggy Address:", peggy.address);
-            //     });
-            //     return render();
-            //     });
-            // })
-                // this.contracts.token.deployed().then((instance) => {
-                // return instance.balanceOf(this.account);
-                //     } ).then(function(balance) {
-                // console.log(balance.toNumber());
-                // })
+                    console.log("$", $);
+
+                    var token = await this.fetchData("FBT.json");
+                    this.contracts.token = TruffleContract(token.data);
+                    this.contracts.token.setProvider(this.web3Provider);
+                    var deployedToken = await this.contracts.token.deployed();
+                    console.log("ERC Token Address:", deployedToken.address);
+
+                    var peggy = await this.fetchData("Peggy.json");
+                    this.contracts.peggy = TruffleContract(peggy.data);
+                    this.contracts.peggy.setProvider(this.web3Provider);
+                    var deployedPeggy = await this.contracts.peggy.deployed()
+                    console.log("peggy Address:", deployedPeggy.address);
+
+                    var balance1 = await deployedToken.balanceOf(this.account);
+                    console.log("balance.toNumber()", balance1.toNumber())
+
+                    // this.contracts.token.deployed().then((instance) => {
+                    // return instance.balanceOf(this.account);
+                    //     } ).then(function(balance) {
+                    // console.log(balance.toNumber());
+                    // })
             }
         },
-        async migrateTokens(numberOfTokens){
-            let payload;
+        async migrateTokens(){
             let peggy = await this.contracts.peggy.deployed();
             let token = await this.contracts.token.deployed();
-            let resultAllow = await token.allowance(this.account, peggy.address, {
+            console.log("ths.tokenInput", this.tokenInput);
+            // let transfer = await token.transfer("0x78a31729d5147d494A51b9A178566CE228464C1F", this.tokenInput, {
+            //     from: this.account,
+            //     gas: 500000,
+            // })
+            // console.log("transaction", transfer);
+            
+            let resultAllow = await token.approve(peggy.address, this.tokenInput, {
                 from: this.account,
-                value: numberOfTokens,
                 gas: 500000
             });
             console.log("resultAllow", resultAllow);
-            let resultLock = await peggy.lock(numberOfTokens, payload, {
-                from: this.account,
-                value: numberOfTokens,
-                gas: 500000
-            });
-            console.log("resultLock", resultLock);
+
+        // bytes memory _recipient = cosmos address fetched by the ledger 
+        // address _token = address of the token contract i.e token.address
+        // uint256 _amount = the amount entered by the user,
+        // uint8 _v,        v,r,s needs to be fetched by the database
+        // bytes32 _r,
+        // bytes32 _s
+
+
+        //     let resultLock = await peggy.lock(recepient, tokenaddress, amount, v, r, s, {
+        //         from: this.account,
+        //         gas: 500000
+        //     });
+        //     console.log("resultLock", resultLock);
+        },
+        fetchData(filename){
+            return new Promise((resolve, reject) => {
+                axios.get(filename).then(response => {
+                    resolve(response);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
         }
     },
     components:{
