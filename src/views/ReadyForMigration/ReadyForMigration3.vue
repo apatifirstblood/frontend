@@ -104,7 +104,7 @@ export default {
 
         // bytes memory _recipient = cosmos address fetched by the ledger 
         // address _token = address of the token contract i.e token.address
-        // uint256 _amount = the amount entered by the user,
+        // uint256 _amount = the amount entered by the user, i.e this.tokenInput
         // uint8 _v,        v,r,s needs to be fetched by the database
         // bytes32 _r,
         // bytes32 _s
